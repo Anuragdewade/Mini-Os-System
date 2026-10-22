@@ -151,7 +151,7 @@ For **why C++**, **which features help**, and **what the project teaches**, see 
 
 ## Web Version
 
-A full **TypeScript/Next.js** version lives in `web/` with the same seven modules and a visual UI.
+A full **TypeScript/Next.js** version lives in `web/` with four modules and a visual UI.
 
 **Stack:** Next.js 16 (static export), TypeScript, Tailwind CSS, Recharts.
 
@@ -168,8 +168,5 @@ Deploy `out/` to Vercel, Netlify, or GitHub Pages (root or `web/` as configured)
 |---|------------|----------|
 | 1 | Process & Thread | Process table, state buttons, thread list, event log |
 | 2 | CPU Scheduling | Gantt chart, metrics, Compare All chart |
-| 3 | Synchronization | Four classic problems, lock/semaphore log |
-| 4 | Deadlock | Interactive RAG, Banker's with walkthrough |
-| 5 | Memory Management | Memory map, fit comparison, fragmented demo |
-| 6 | Virtual Memory | Step table with queue/stack column, comparison |
-| 7 | File System | Terminal + file browser; Block I/O Analyzer tab (Contiguous/Linked/Indexed) |
+| 3 | Deadlock | Interactive RAG, Banker's with walkthrough |
+| 4 | File System | Terminal + file browser; Block I/O Analyzer tab (Contiguous/Linked/Indexed) |

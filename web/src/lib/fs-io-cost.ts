@@ -183,7 +183,8 @@ function linkedIO(n: number, pos: number, op: Operation, cfg: AnalysisConfig): I
 // insert, remove) happens entirely in RAM — only the new data block
 // write counts as disk I/O for insertions. Removals cost 0 disk I/O.
 function indexedIO(_n: number, _pos: number, op: Operation): IOResult {
-  let reads = 0, writes = 0;
+  const reads = 0;
+  let writes = 0;
   const steps: string[] = [];
 
   if (op.startsWith("insert")) {

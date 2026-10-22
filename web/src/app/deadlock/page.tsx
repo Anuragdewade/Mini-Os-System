@@ -1,5 +1,5 @@
 "use client";
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { BankersInput, BankersResult, bankersSafe, bankersDemo, createRAG, detectCycle, RAGState } from "@/lib/deadlock";
 import { Button } from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
@@ -159,7 +159,7 @@ function RAGTab() {
             </marker>
           </defs>
 
-          {/* Request edges */}
+          {/* Request edges (P -> R) */}
           {rag.processes.map(pid => {
             const reqs = rag.requests.get(pid);
             if (!reqs) return null;
@@ -168,10 +168,17 @@ function RAGTab() {
               const to   = positions.get(`R${rid}`);
               if (!from || !to) return null;
               const inCycle = cycle && cycle.includes(pid);
+              const dx = to.x - from.x;
+              const dy = to.y - from.y;
+              const dist = Math.hypot(dx, dy) || 1;
+              const x1 = from.x + (dx / dist) * 20;
+              const y1 = from.y + (dy / dist) * 20;
+              const x2 = to.x - (dx / dist) * 22;
+              const y2 = to.y - (dy / dist) * 22;
               return (
                 <line
                   key={`req-${pid}-${rid}`}
-                  x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                  x1={x1} y1={y1} x2={x2} y2={y2}
                   stroke={inCycle ? "#ef4444" : "#94a3b8"}
                   strokeWidth={inCycle ? 2.5 : 1.5}
                   markerEnd={inCycle ? "url(#arrowhead-red)" : "url(#arrowhead)"}
@@ -180,16 +187,23 @@ function RAGTab() {
             });
           })}
 
-          {/* Assignment edges */}
+          {/* Assignment edges (R -> P) */}
           {Array.from(rag.assignments.entries()).map(([rid, pid]) => {
             const from = positions.get(`R${rid}`);
             const to   = positions.get(`P${pid}`);
             if (!from || !to) return null;
             const inCycle = cycle && cycle.includes(pid);
+            const dx = to.x - from.x;
+            const dy = to.y - from.y;
+            const dist = Math.hypot(dx, dy) || 1;
+            const x1 = from.x + (dx / dist) * 20;
+            const y1 = from.y + (dy / dist) * 20;
+            const x2 = to.x - (dx / dist) * 22;
+            const y2 = to.y - (dy / dist) * 22;
             return (
               <line
                 key={`asg-${rid}-${pid}`}
-                x1={from.x} y1={from.y} x2={to.x} y2={to.y}
+                x1={x1} y1={y1} x2={x2} y2={y2}
                 stroke={inCycle ? "#ef4444" : "var(--primary)"}
                 strokeWidth={inCycle ? 2.5 : 1.5}
                 strokeDasharray={inCycle ? "" : "5 3"}

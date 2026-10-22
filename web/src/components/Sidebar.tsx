@@ -4,8 +4,8 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import {
-  Cpu, BarChart2, Lock, AlertTriangle, MemoryStick, FileText, FolderOpen,
-  Sun, Moon, Monitor, ChevronRight, Home,
+  Cpu, BarChart2, AlertTriangle, FolderOpen,
+  Sun, Moon, Monitor, Home, Menu, X,
 } from "lucide-react";
 
 const modules = [
@@ -26,42 +26,18 @@ const modules = [
     color: "#3b6ef8",
   },
   {
-    href: "/sync",
-    label: "Synchronization",
-    desc: "Producer-Consumer, Dining Philosophers…",
-    num: 3,
-    icon: Lock,
-    color: "#16a34a",
-  },
-  {
     href: "/deadlock",
     label: "Deadlock Analyzer",
     desc: "RAG cycle detection + Banker's algorithm",
-    num: 4,
+    num: 3,
     icon: AlertTriangle,
     color: "#dc2626",
-  },
-  {
-    href: "/memory",
-    label: "Memory Management",
-    desc: "First/Best/Worst Fit, fragmentation, compaction",
-    num: 5,
-    icon: MemoryStick,
-    color: "#ea580c",
-  },
-  {
-    href: "/vmem",
-    label: "Virtual Memory",
-    desc: "FIFO/LRU/Optimal/Clock page replacement",
-    num: 6,
-    icon: FileText,
-    color: "#d97706",
   },
   {
     href: "/filesystem",
     label: "File System",
     desc: "FAT shell + Block I/O Analyzer",
-    num: 7,
+    num: 4,
     icon: FolderOpen,
     color: "#0284c7",
   },
@@ -75,7 +51,9 @@ function useTheme() {
   useEffect(() => {
     try {
       const stored = localStorage.getItem("os-theme") as Theme | null;
-      if (stored === "light" || stored === "dark") setTheme(stored);
+      if (stored === "light" || stored === "dark") {
+        queueMicrotask(() => setTheme(stored));
+      }
     } catch {}
   }, []);
 
@@ -235,17 +213,24 @@ export default function Sidebar() {
         {/* Top bar */}
         <div className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-4 h-12 bg-card border-b border-border">
           <Link href="/" className="text-sm font-bold text-foreground">Mini OS Simulator</Link>
-          <button
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
-            aria-expanded={mobileOpen}
-            className="p-1.5 rounded-lg hover:bg-accent transition-colors"
-          >
-            <ChevronRight
-              size={18}
-              className={cn("text-muted-foreground transition-transform duration-200", mobileOpen && "rotate-180")}
-            />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => apply(nextTheme)}
+              title={themeLabel}
+              aria-label={themeLabel}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            >
+              <ThemeIcon size={16} />
+            </button>
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
+              className="p-1.5 rounded-lg text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+            >
+              {mobileOpen ? <X size={18} /> : <Menu size={18} />}
+            </button>
+          </div>
         </div>
 
         {/* Overlay */}

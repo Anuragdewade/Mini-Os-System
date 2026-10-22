@@ -3,7 +3,6 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { MiniFS, FsEntry } from "@/lib/filesystem";
 import { analyzeIO, resolvePosition, OPERATIONS, IOResult, Operation, AnalysisConfig, DEFAULT_CONFIG } from "@/lib/fs-io-cost";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Button } from "@/components/ui/Button";
 import { Tabs } from "@/components/ui/Tabs";
 import { EmptyState } from "@/components/ui/EmptyState";
 import { File, Folder, FolderOpen, Terminal, BarChart2, ChevronDown, ChevronRight } from "lucide-react";
@@ -332,13 +331,13 @@ export default function FilesystemPage() {
       {tab === "terminal" && (
         <div className="grid md:grid-cols-[1fr_240px] gap-4">
           {/* Terminal */}
-          <div className="rounded-xl bg-log-bg border border-log-border flex flex-col h-[500px] overflow-hidden">
+          <div className="rounded-xl bg-log-bg border border-log-border flex flex-col h-[380px] sm:h-[460px] md:h-[520px] overflow-hidden shadow-sm">
             {/* Terminal chrome */}
             <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-log-border">
               <span className="w-3 h-3 rounded-full bg-red-500" />
               <span className="w-3 h-3 rounded-full bg-yellow-500" />
               <span className="w-3 h-3 rounded-full bg-green-500" />
-              <span className="ml-3 text-xs text-slate-500 font-mono">minifs — {fs.getPath()}</span>
+              <span className="ml-3 text-xs text-slate-400 font-mono">minifs — {fs.getPath()}</span>
             </div>
             {/* Output */}
             <div className="flex-1 overflow-y-auto p-3 font-mono text-xs space-y-1">
@@ -347,7 +346,7 @@ export default function FilesystemPage() {
                   {h.cmd && (
                     <div>
                       <span className="text-green-400">minifs:{fs.getPath()}$</span>{" "}
-                      <span className="text-white">{h.cmd}</span>
+                      <span className="text-white font-medium">{h.cmd}</span>
                     </div>
                   )}
                   {h.output.split("\n").map((line, j) => (
@@ -373,9 +372,9 @@ export default function FilesystemPage() {
           </div>
 
           {/* File browser */}
-          <div className="rounded-xl bg-log-bg border border-log-border flex flex-col h-[500px] overflow-hidden">
+          <div className="rounded-xl bg-log-bg border border-log-border flex flex-col h-[260px] md:h-[520px] overflow-hidden shadow-sm">
             <div className="px-3 py-2.5 border-b border-log-border">
-              <p className="text-xs font-semibold text-slate-400">File Browser</p>
+              <p className="text-xs font-semibold text-slate-300">File Browser</p>
             </div>
             <div className="flex-1 overflow-y-auto p-2">
               <FileTree entry={fs.root} />

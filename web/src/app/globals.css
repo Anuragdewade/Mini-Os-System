@@ -60,16 +60,7 @@
   --state-terminated:    #dc2626;
   --state-terminated-subtle:#fef2f2;
 
-  /* Memory */
-  --mem-allocated:       #3b6ef8;
-  --mem-free:            #334155;
-  --mem-free-subtle:     #e2e8f0;
 
-  /* Virtual Memory */
-  --vm-fault:            #dc2626;
-  --vm-fault-subtle:     #fef2f2;
-  --vm-hit:              #16a34a;
-  --vm-hit-subtle:       #f0fdf4;
 
   /* Deadlock */
   --deadlock:            #dc2626;
@@ -153,16 +144,7 @@
   --state-terminated:    #f87171;
   --state-terminated-subtle:#2d1111;
 
-  /* Memory (dark) */
-  --mem-allocated:       #5b8af9;
-  --mem-free:            #334155;
-  --mem-free-subtle:     #1e293b;
 
-  /* Virtual Memory (dark) */
-  --vm-fault:            #f87171;
-  --vm-fault-subtle:     #2d1111;
-  --vm-hit:              #4ade80;
-  --vm-hit-subtle:       #052e16;
 
   /* Deadlock (dark) */
   --deadlock:            #f87171;
@@ -234,10 +216,6 @@
   --color-state-terminated:     var(--state-terminated);
   --color-state-terminated-subtle: var(--state-terminated-subtle);
 
-  --color-vm-fault:             var(--vm-fault);
-  --color-vm-fault-subtle:      var(--vm-fault-subtle);
-  --color-vm-hit:               var(--vm-hit);
-  --color-vm-hit-subtle:        var(--vm-hit-subtle);
 
   --color-deadlock:             var(--deadlock);
   --color-deadlock-subtle:      var(--deadlock-subtle);
@@ -331,12 +309,19 @@ body {
 
 /* Module page wrapper */
 .module-page {
-  padding: 1.5rem;
+  padding: 1rem;
   max-width: 72rem;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .module-page {
+    padding: 1.5rem;
+    gap: 1.5rem;
+  }
 }
 
 /* Section with title */
@@ -367,11 +352,3 @@ body {
   border: 1px solid var(--border);
 }
 
-/* Memory map row */
-.memory-map-row {
-  display: flex;
-  height: 3.5rem;
-  border-radius: var(--radius-md);
-  overflow: hidden;
-  border: 1px solid var(--border);
-}

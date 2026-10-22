@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {
-  Cpu, BarChart2, Lock, AlertTriangle, MemoryStick, FileText, FolderOpen,
+  Cpu, BarChart2, AlertTriangle, FolderOpen,
 } from "lucide-react";
 
 const modules = [
@@ -23,17 +23,8 @@ const modules = [
     tags: ["FCFS", "SJF", "MLFQ", "Gantt"],
   },
   {
-    href: "/sync",
-    num: 3,
-    title: "Synchronization Playground",
-    desc: "Producer-Consumer, Readers-Writers, Dining Philosophers, Sleeping Barber",
-    icon: Lock,
-    color: "#16a34a",
-    tags: ["Mutex", "Semaphore"],
-  },
-  {
     href: "/deadlock",
-    num: 4,
+    num: 3,
     title: "Deadlock Analyzer",
     desc: "Resource Allocation Graph, Banker's Algorithm, safe sequence",
     icon: AlertTriangle,
@@ -41,26 +32,8 @@ const modules = [
     tags: ["RAG", "Banker's", "Safe Seq"],
   },
   {
-    href: "/memory",
-    num: 5,
-    title: "Memory Management",
-    desc: "First/Best/Worst Fit, fragmentation, compaction, memory map",
-    icon: MemoryStick,
-    color: "#ea580c",
-    tags: ["First Fit", "Best Fit", "Compaction"],
-  },
-  {
-    href: "/vmem",
-    num: 6,
-    title: "Virtual Memory",
-    desc: "Page table, FIFO/LRU/Optimal/Clock replacement, comparison",
-    icon: FileText,
-    color: "#d97706",
-    tags: ["FIFO", "LRU", "Optimal", "Clock"],
-  },
-  {
     href: "/filesystem",
-    num: 7,
+    num: 4,
     title: "Mini File System",
     desc: "FAT-based virtual disk, shell commands, directory tree, Block I/O Analyzer",
     icon: FolderOpen,
@@ -89,14 +62,14 @@ export default function Home() {
               <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse-dot" />
               Interactive Lab
             </span>
-            <span className="text-muted-foreground text-xs">7 modules · C++17 + TypeScript</span>
+            <span className="text-muted-foreground text-xs">4 modules · C++17 + TypeScript</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-foreground mb-4 leading-tight">
             Mini OS Simulator
           </h1>
           <p className="text-lg text-muted-foreground max-w-2xl leading-relaxed">
             A visual, hands-on laboratory for learning operating system concepts.
-            Explore scheduling, synchronization, memory, and more — step by step.
+            Explore process scheduling, deadlock analysis, and file systems — step by step.
           </p>
         </div>
       </div>

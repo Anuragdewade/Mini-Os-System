@@ -1,4 +1,4 @@
-import { ProcessControlBlock, ThreadControlBlock, ProcessState, LogEntry } from "./types";
+import { ProcessControlBlock, ThreadControlBlock, ProcessState } from "./types";
 
 export function nextPid(procs: ProcessControlBlock[]): number {
   return procs.length > 0 ? Math.max(...procs.map(p => p.pid)) + 1 : 1;

@@ -2,6 +2,7 @@
 import { useState, Fragment } from "react";
 import { ProcessControlBlock, ProcessState, LogEntry } from "@/lib/types";
 import { createProcess, makeThread, transitionProcess, nextPid, nextTid } from "@/lib/process";
+import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { MetricCard } from "@/components/ui/MetricCard";
@@ -82,7 +83,11 @@ export default function ProcessPage() {
   const toggleExpand = (pid: number) => {
     setExpanded(prev => {
       const next = new Set(prev);
-      next.has(pid) ? next.delete(pid) : next.add(pid);
+      if (next.has(pid)) {
+        next.delete(pid);
+      } else {
+        next.add(pid);
+      }
       return next;
     });
   };
@@ -209,19 +214,32 @@ export default function ProcessPage() {
                     </td>
                     <td className="px-3 py-2.5">
                       <div className="flex flex-wrap gap-1.5 items-center">
-                        {VALID_TRANSITIONS[p.state].map(t => (
-                          <button
-                            key={t}
-                            onClick={() => handleTransition(p.pid, t)}
-                            className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium border border-border
-                                       hover:border-primary hover:bg-primary hover:text-primary-foreground
-                                       transition-all duration-150"
-                          >
-                            →{t}
-                          </button>
-                        ))}
+                        {VALID_TRANSITIONS[p.state].map(t => {
+                          const stateColor =
+                            t === ProcessState.READY
+                              ? "hover:border-amber-500 hover:text-amber-600 dark:hover:text-amber-400 hover:bg-amber-500/10"
+                              : t === ProcessState.RUNNING
+                              ? "hover:border-emerald-500 hover:text-emerald-600 dark:hover:text-emerald-400 hover:bg-emerald-500/10"
+                              : t === ProcessState.WAITING
+                              ? "hover:border-orange-500 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-orange-500/10"
+                              : "hover:border-red-500 hover:text-red-600 dark:hover:text-red-400 hover:bg-red-500/10";
+                          return (
+                            <button
+                              key={t}
+                              onClick={() => handleTransition(p.pid, t)}
+                              className={cn(
+                                "inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium border border-border",
+                                "transition-all duration-150 active:scale-95 cursor-pointer",
+                                stateColor
+                              )}
+                              title={`Transition to ${t}`}
+                            >
+                              →{t}
+                            </button>
+                          );
+                        })}
                         {/* Add thread inline */}
-                        <span className="inline-flex items-center gap-1 border-l border-border pl-2 ml-0.5">
+                        <span className="inline-flex items-center gap-1.5 border-l border-border pl-2 ml-0.5">
                           <input
                             type="number"
                             min={1}
@@ -231,9 +249,10 @@ export default function ProcessPage() {
                             className="w-12 px-1.5 py-0.5 rounded border border-border bg-background text-xs text-center
                                        focus:outline-none focus:ring-1 focus:ring-ring"
                           />
+                          <span className="text-[10px] text-muted-foreground font-mono">ms</span>
                           <button
                             onClick={() => handleAddThread(p.pid)}
-                            className="px-2 py-0.5 rounded text-xs font-medium bg-muted hover:bg-primary hover:text-primary-foreground transition-colors"
+                            className="px-2 py-0.5 rounded text-xs font-medium bg-muted hover:bg-primary hover:text-primary-foreground transition-colors cursor-pointer"
                             title="Add thread to this process"
                           >
                             +Thread

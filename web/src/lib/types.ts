@@ -63,28 +63,6 @@ export interface ScheduleResult {
   processes: ProcessControlBlock[];
 }
 
-export interface MemoryBlock {
-  start: number;
-  size: number;
-  pid: number; // -1 = free
-}
-
-export interface FrameSnapshot {
-  ref: number;
-  frames: number[];
-  fault: boolean;
-  victim?: number;
-  structure: string;   // human-readable state of the internal data structure
-  structureLabel: string; // e.g. "FIFO Queue", "LRU Stack", "Future Use"
-}
-
-export interface ReplacementResult {
-  algorithm: string;
-  pageFaults: number;
-  hits: number;
-  totalRefs: number;
-  frameSnapshots: FrameSnapshot[];
-}
 
 export interface DiskScheduleResult {
   algorithm: string;

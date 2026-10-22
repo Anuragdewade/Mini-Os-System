@@ -13,8 +13,6 @@ type BadgeVariant =
   | "running"
   | "waiting"
   | "terminated"
-  | "fault"
-  | "hit"
   | "safe"
   | "unsafe"
   | "deadlock";
@@ -32,9 +30,6 @@ const variantClasses: Record<BadgeVariant, string> = {
   running:     "text-white",
   waiting:     "text-white",
   terminated:  "text-white",
-  // VM
-  fault:       "bg-vm-fault-subtle text-vm-fault",
-  hit:         "bg-vm-hit-subtle text-vm-hit",
   // Deadlock
   safe:        "bg-safe-subtle text-safe",
   unsafe:      "bg-unsafe-subtle text-unsafe",

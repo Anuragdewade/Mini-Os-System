@@ -8,7 +8,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 
 export const metadata: Metadata = {
   title: "Mini OS Simulator",
-  description: "An interactive visual laboratory for learning OS concepts — process scheduling, synchronization, memory management, virtual memory, deadlock detection, and file systems.",
+  description: "An interactive visual laboratory for learning OS concepts — process scheduling, deadlock analysis, and file systems.",
 };
 
 // Inline script — runs before first paint to avoid theme flash on static export

@@ -30,49 +30,70 @@ const METRIC_COLORS = ["#6366f1", "#3b6ef8", "#16a34a", "#ea580c", "#d97706"];
 function GanttChart({ gantt }: { gantt: { pid: number; duration: number }[] }) {
   const total = gantt.reduce((s, g) => s + g.duration, 0);
   if (total === 0) return null;
-  let t = 0;
+
+  // Precompute start times with pure reduce
+  const segments = gantt.reduce<{ pid: number; duration: number; start: number }[]>((acc, g) => {
+    const prev = acc[acc.length - 1];
+    const start = prev ? prev.start + prev.duration : 0;
+    return [...acc, { ...g, start }];
+  }, []);
+
+  // Extract unique process IDs present in this schedule
+  const uniquePids = Array.from(new Set(gantt.map(g => g.pid))).sort((a, b) => a - b);
+
   return (
-    <div>
+    <div className="space-y-3">
       {/* Bars */}
-      <div className="flex h-14 rounded-xl overflow-hidden border border-border">
-        {gantt.map((g, i) => {
-          const w = (g.duration / total) * 100;
-          const s = t; t += g.duration;
-          const isIdle = g.pid < 0;
-          return (
-            <div
-              key={i}
-              className="relative flex items-center justify-center text-xs font-mono text-white shrink-0"
-              style={{
-                width: `${w}%`,
-                backgroundColor: isIdle ? "#475569" : COLORS[g.pid % COLORS.length],
-                minWidth: g.duration > 0 ? 2 : 0,
-              }}
-              title={`${isIdle ? "Idle" : `P${g.pid}`}: t=${s}–${s + g.duration}`}
-            >
-              {w > 4 && (
-                <span className="truncate px-1 drop-shadow">
-                  {isIdle ? "—" : `P${g.pid}`}
-                </span>
-              )}
-            </div>
-          );
-        })}
-      </div>
-      {/* Time ticks */}
-      <div className="flex text-[10px] text-muted-foreground font-mono mt-1">
-        {(() => {
-          let acc = 0;
-          return gantt.map((g, i) => {
-            const left = acc; acc += g.duration;
+      <div>
+        <div className="flex h-14 rounded-xl overflow-hidden border border-border shadow-inner">
+          {segments.map((g, i) => {
+            const w = (g.duration / total) * 100;
+            const s = g.start;
+            const isIdle = g.pid < 0;
             return (
-              <span key={i} style={{ width: `${(g.duration / total) * 100}%` }} className="truncate">
-                {left}
-              </span>
+              <div
+                key={i}
+                className="relative flex flex-col items-center justify-center text-xs font-mono text-white shrink-0 transition-opacity hover:opacity-90"
+                style={{
+                  width: `${w}%`,
+                  backgroundColor: isIdle ? "#475569" : COLORS[g.pid % COLORS.length],
+                  minWidth: g.duration > 0 ? 2 : 0,
+                }}
+                title={`${isIdle ? "Idle" : `P${g.pid}`}: t=${s}–${s + g.duration} (${g.duration}ms)`}
+              >
+                {w > 4 && (
+                  <span className="truncate px-1 font-bold drop-shadow">
+                    {isIdle ? "—" : `P${g.pid}`}
+                  </span>
+                )}
+                {w > 8 && (
+                  <span className="text-[10px] opacity-80 font-mono">
+                    {g.duration}ms
+                  </span>
+                )}
+              </div>
             );
-          });
-        })()}
-        <span>{total}</span>
+          })}
+        </div>
+        {/* Time ticks */}
+        <div className="flex justify-between text-[11px] text-muted-foreground font-mono mt-1 px-0.5">
+          <span>0</span>
+          <span>{total} ms</span>
+        </div>
+      </div>
+
+      {/* Legend */}
+      <div className="flex flex-wrap items-center gap-3 pt-1 text-xs">
+        <span className="text-muted-foreground text-[11px] font-semibold uppercase tracking-wider">Legend:</span>
+        {uniquePids.map(pid => (
+          <span key={pid} className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-muted/60 border border-border text-xs font-medium">
+            <span
+              className="w-2.5 h-2.5 rounded-sm shrink-0"
+              style={{ backgroundColor: pid < 0 ? "#475569" : COLORS[pid % COLORS.length] }}
+            />
+            <span className="font-mono text-foreground">{pid < 0 ? "Idle" : `P${pid}`}</span>
+          </span>
+        ))}
       </div>
     </div>
   );
