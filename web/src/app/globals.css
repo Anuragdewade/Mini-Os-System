@@ -1,0 +1,377 @@
+@import "tailwindcss";
+
+/* ============================================================
+   LIGHT MODE TOKENS
+   ============================================================ */
+:root {
+  /* Base surfaces */
+  --background:          #f6f8fc;
+  --foreground:          #0f172a;
+  --card:                #ffffff;
+  --card-foreground:     #0f172a;
+  --panel:               #f1f5f9;
+
+  /* Brand */
+  --primary:             #3b6ef8;
+  --primary-foreground:  #ffffff;
+  --primary-subtle:      #eff3ff;
+
+  /* Secondary / accent */
+  --secondary:           #f1f5f9;
+  --secondary-foreground:#334155;
+  --accent:              #e8edf7;
+  --accent-foreground:   #1e3a8a;
+
+  /* Muted */
+  --muted:               #f1f5f9;
+  --muted-foreground:    #64748b;
+
+  /* Semantic */
+  --destructive:         #ef4444;
+  --destructive-subtle:  #fef2f2;
+  --success:             #16a34a;
+  --success-subtle:      #f0fdf4;
+  --warning:             #d97706;
+  --warning-subtle:      #fffbeb;
+  --info:                #0284c7;
+  --info-subtle:         #f0f9ff;
+
+  /* Borders & rings */
+  --border:              #e2e8f0;
+  --border-strong:       #cbd5e1;
+  --ring:                #3b6ef8;
+
+  /* Shadows */
+  --shadow-sm:           0 1px 3px 0 rgb(0 0 0 / 0.08);
+  --shadow-md:           0 4px 12px -2px rgb(0 0 0 / 0.10);
+  --shadow-lg:           0 10px 24px -4px rgb(0 0 0 / 0.12);
+
+  /* ── OS Semantic Colors ── */
+
+  /* Process states */
+  --state-new:           #6366f1;
+  --state-new-subtle:    #eef2ff;
+  --state-ready:         #f59e0b;
+  --state-ready-subtle:  #fffbeb;
+  --state-running:       #16a34a;
+  --state-running-subtle:#f0fdf4;
+  --state-waiting:       #ea580c;
+  --state-waiting-subtle:#fff7ed;
+  --state-terminated:    #dc2626;
+  --state-terminated-subtle:#fef2f2;
+
+  /* Memory */
+  --mem-allocated:       #3b6ef8;
+  --mem-free:            #334155;
+  --mem-free-subtle:     #e2e8f0;
+
+  /* Virtual Memory */
+  --vm-fault:            #dc2626;
+  --vm-fault-subtle:     #fef2f2;
+  --vm-hit:              #16a34a;
+  --vm-hit-subtle:       #f0fdf4;
+
+  /* Deadlock */
+  --deadlock:            #dc2626;
+  --deadlock-subtle:     #fef2f2;
+  --safe:                #16a34a;
+  --safe-subtle:         #f0fdf4;
+  --unsafe:              #ea580c;
+  --unsafe-subtle:       #fff7ed;
+
+  /* File strategies */
+  --strategy-contiguous: #f97316;
+  --strategy-linked:     #06b6d4;
+  --strategy-indexed:    #a78bfa;
+
+  /* Sync log colors */
+  --log-bg:              #1a1b2e;
+  --log-border:          #2d2f4a;
+
+  /* Typography */
+  --font-sans:           var(--font-geist-sans);
+  --font-mono:           var(--font-geist-mono);
+
+  /* Radius */
+  --radius-sm:           4px;
+  --radius-md:           8px;
+  --radius-lg:           12px;
+  --radius-xl:           16px;
+
+  /* Sidebar */
+  --sidebar-width:       256px;
+}
+
+/* ============================================================
+   DARK MODE — toggled via .dark class on <html>
+   ============================================================ */
+.dark {
+  --background:          #0c0f1a;
+  --foreground:          #e2e8f0;
+  --card:                #141827;
+  --card-foreground:     #e2e8f0;
+  --panel:               #1a2035;
+
+  --primary:             #5b8af9;
+  --primary-foreground:  #ffffff;
+  --primary-subtle:      #1e2d5a;
+
+  --secondary:           #1e293b;
+  --secondary-foreground:#cbd5e1;
+  --accent:              #1e2d4a;
+  --accent-foreground:   #93c5fd;
+
+  --muted:               #1e293b;
+  --muted-foreground:    #94a3b8;
+
+  --destructive:         #f87171;
+  --destructive-subtle:  #2d1111;
+  --success:             #4ade80;
+  --success-subtle:      #052e16;
+  --warning:             #fbbf24;
+  --warning-subtle:      #2d1b00;
+  --info:                #38bdf8;
+  --info-subtle:         #0c2340;
+
+  --border:              #1e293b;
+  --border-strong:       #334155;
+  --ring:                #5b8af9;
+
+  --shadow-sm:           0 1px 3px 0 rgb(0 0 0 / 0.30);
+  --shadow-md:           0 4px 12px -2px rgb(0 0 0 / 0.40);
+  --shadow-lg:           0 10px 24px -4px rgb(0 0 0 / 0.50);
+
+  /* Process states (dark) */
+  --state-new:           #818cf8;
+  --state-new-subtle:    #1e1b4b;
+  --state-ready:         #fbbf24;
+  --state-ready-subtle:  #2d1b00;
+  --state-running:       #4ade80;
+  --state-running-subtle:#052e16;
+  --state-waiting:       #fb923c;
+  --state-waiting-subtle:#2d0f00;
+  --state-terminated:    #f87171;
+  --state-terminated-subtle:#2d1111;
+
+  /* Memory (dark) */
+  --mem-allocated:       #5b8af9;
+  --mem-free:            #334155;
+  --mem-free-subtle:     #1e293b;
+
+  /* Virtual Memory (dark) */
+  --vm-fault:            #f87171;
+  --vm-fault-subtle:     #2d1111;
+  --vm-hit:              #4ade80;
+  --vm-hit-subtle:       #052e16;
+
+  /* Deadlock (dark) */
+  --deadlock:            #f87171;
+  --deadlock-subtle:     #2d1111;
+  --safe:                #4ade80;
+  --safe-subtle:         #052e16;
+  --unsafe:              #fb923c;
+  --unsafe-subtle:       #2d0f00;
+
+  /* File strategies (dark — same hue, slightly brighter) */
+  --strategy-contiguous: #fb923c;
+  --strategy-linked:     #22d3ee;
+  --strategy-indexed:    #c4b5fd;
+
+  --log-bg:              #0d0e1a;
+  --log-border:          #1e2040;
+}
+
+/* ============================================================
+   TAILWIND v4 THEME BRIDGE
+   ============================================================ */
+@theme inline {
+  /* Surfaces */
+  --color-background:           var(--background);
+  --color-foreground:           var(--foreground);
+  --color-card:                 var(--card);
+  --color-card-foreground:      var(--card-foreground);
+  --color-panel:                var(--panel);
+
+  /* Brand */
+  --color-primary:              var(--primary);
+  --color-primary-foreground:   var(--primary-foreground);
+  --color-primary-subtle:       var(--primary-subtle);
+
+  /* Secondary */
+  --color-secondary:            var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent:               var(--accent);
+  --color-accent-foreground:    var(--accent-foreground);
+
+  /* Muted */
+  --color-muted:                var(--muted);
+  --color-muted-foreground:     var(--muted-foreground);
+
+  /* Semantic */
+  --color-destructive:          var(--destructive);
+  --color-destructive-subtle:   var(--destructive-subtle);
+  --color-success:              var(--success);
+  --color-success-subtle:       var(--success-subtle);
+  --color-warning:              var(--warning);
+  --color-warning-subtle:       var(--warning-subtle);
+  --color-info:                 var(--info);
+  --color-info-subtle:          var(--info-subtle);
+
+  /* Borders */
+  --color-border:               var(--border);
+  --color-border-strong:        var(--border-strong);
+  --color-ring:                 var(--ring);
+
+  /* OS Semantic */
+  --color-state-new:            var(--state-new);
+  --color-state-new-subtle:     var(--state-new-subtle);
+  --color-state-ready:          var(--state-ready);
+  --color-state-ready-subtle:   var(--state-ready-subtle);
+  --color-state-running:        var(--state-running);
+  --color-state-running-subtle: var(--state-running-subtle);
+  --color-state-waiting:        var(--state-waiting);
+  --color-state-waiting-subtle: var(--state-waiting-subtle);
+  --color-state-terminated:     var(--state-terminated);
+  --color-state-terminated-subtle: var(--state-terminated-subtle);
+
+  --color-vm-fault:             var(--vm-fault);
+  --color-vm-fault-subtle:      var(--vm-fault-subtle);
+  --color-vm-hit:               var(--vm-hit);
+  --color-vm-hit-subtle:        var(--vm-hit-subtle);
+
+  --color-deadlock:             var(--deadlock);
+  --color-deadlock-subtle:      var(--deadlock-subtle);
+  --color-safe:                 var(--safe);
+  --color-safe-subtle:          var(--safe-subtle);
+
+  --color-log-bg:               var(--log-bg);
+  --color-log-border:           var(--log-border);
+
+  /* Typography */
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* ============================================================
+   BASE RESET & GLOBAL STYLES
+   ============================================================ */
+*, *::before, *::after {
+  border-color: var(--border);
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans), system-ui, sans-serif;
+  line-height: 1.6;
+  min-height: 100vh;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+/* Tabular numbers for data-heavy contexts */
+.font-mono, td, th {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover { background: var(--muted-foreground); }
+
+/* ============================================================
+   FOCUS RING (WCAG AA)
+   ============================================================ */
+:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* ============================================================
+   ANIMATIONS — respect prefers-reduced-motion
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.3; }
+}
+@keyframes shimmer {
+  from { background-position: -200% 0; }
+  to   { background-position: 200% 0; }
+}
+
+.animate-fade-in { animation: fadeIn 0.2s ease both; }
+.animate-pulse-dot { animation: pulse-dot 1.2s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* Module page wrapper */
+.module-page {
+  padding: 1.5rem;
+  max-width: 72rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Section with title */
+.section-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+/* Terminal / log panel */
+.terminal-panel {
+  background: var(--log-bg);
+  border: 1px solid var(--log-border);
+  border-radius: var(--radius-lg);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  overflow-y: auto;
+}
+
+/* Gantt row */
+.gantt-row {
+  display: flex;
+  height: 3rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Memory map row */
+.memory-map-row {
+  display: flex;
+  height: 3.5rem;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
