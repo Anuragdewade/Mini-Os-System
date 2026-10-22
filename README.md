@@ -1,172 +1,121 @@
-# Mini Operating System Simulator
+# Mini OS Simulator
 
-A **user-level educational OS lab** that demonstrates process management, CPU scheduling, synchronization, deadlock analysis, memory management, virtual memory, and file systems through seven interactive modules.
-
-## Purpose
-
-Makes abstract OS concepts concrete: processes & threads, scheduling (FCFS, SJF, RR, Priority, MLFQ), synchronization (mutex, semaphore; Producer-Consumer, Readers-Writers, Dining Philosophers, Sleeping Barber), deadlocks (RAG, Banker's), memory partitioning (first/best/worst fit, compaction), virtual memory (FIFO/LRU/Optimal/Clock), and a FAT-like file system with a Block I/O Cost Analyzer.
-
-website:  https://mini-os-simulator-ten.vercel.app
----
-
-## Requirements
-
-- **C++17** compiler (GCC 7+, Clang 5+, MSVC 2017+)
-- **CMake** 3.16+
-- **pthreads** (for Module 3; standard on Linux/macOS)
-- No external libraries — C++ standard library only
+An interactive, visual laboratory and simulation suite designed to make abstract Operating System concepts intuitive and concrete. Explore process lifecycles, CPU scheduling algorithms, deadlock safety analysis, and file system block I/O operations through interactive web modules and terminal tools.
 
 ---
 
-## Build and Run
+## Web Modules
+
+The web application provides a visual interface for four core operating system domains:
+
+| # | Module | Key Features |
+|---|--------|--------------|
+| **1** | **Process & Thread Simulator** | PCB/TCB lifecycle management, state transitions (`NEW` → `READY` → `RUNNING` → `WAITING` / `TERMINATED`), process budgeting, and live event logging. |
+| **2** | **CPU Scheduling Laboratory** | FCFS, SJF, Round Robin, Priority, and Multi-Level Feedback Queue (MLFQ). Features interactive Gantt charts, metrics calculation (wait, turnaround, response times), and comparative analysis. |
+| **3** | **Deadlock Analyzer** | Interactive Resource Allocation Graph (RAG) with cycle detection, alongside Banker's Algorithm with safe sequence calculation and matrix walkthroughs. |
+| **4** | **Mini File System & Block I/O** | FAT-like virtual disk with an interactive shell (`ls`, `mkdir`, `cd`, `create`, `write`, `cat`, `rm`, `rename`), directory tree explorer, and a Block I/O Cost Analyzer comparing Contiguous, Linked, and Indexed allocation. |
+
+---
+
+## Screenshots
+
+| Feature | Screenshot | Description |
+|---------|------------|-------------|
+| **CPU Scheduling** | ![CPU Scheduling](img/cpu%20scheduling.png) | Compare workloads across FCFS, SJF, RR, Priority, and MLFQ with real-time Gantt charts and metric cards. |
+| **Deadlock — RAG** | ![Deadlock Analyzer 1](img/Deadlock%20Analyzer1.png) | Resource Allocation Graph: processes, resources, request/assignment edges, and automatic cycle detection. |
+| **Deadlock — Banker's** | ![Deadlock Analyzer 2](img/Deadlock%20Analyzer2.png) | Banker's Algorithm: Allocation, Max, Available matrices, and step-by-step safe sequence verification. |
+| **Mini File System** | ![Mini File System](img/Mini%20File%20System.png) | In-browser virtual disk shell and visual directory tree for file manipulation. |
+| **Block I/O Analyzer** | ![Block I/O Analyzer](img/block%20analyzer.png) | Simulate file insertion/removal at begin/middle/end across Contiguous, Linked, and Indexed strategies. |
+| **Block I/O Comparison** | ![Block I/O Analyzer 2](img/block%20analyzer2.png) | Side-by-side read/write cost breakdown and visual comparative charts. |
+
+---
+
+## Tech Stack
+
+### Web Application (`web/`)
+- **Framework**: Next.js 16 (App Router, Static Export)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS (v4) with custom dark mode and system theme detection
+- **Charts & Visualization**: Recharts, Lucide Icons
+
+### Terminal Simulator (`src/` & `include/`)
+- **Language**: C++17 (standard library only)
+- **Build System**: CMake 3.16+
+
+---
+
+## Getting Started
+
+### 1. Web Version (Next.js)
 
 ```bash
-cd "mini OS simulator"
-mkdir build && cd build
-cmake ..
-make -j$(nproc)   # Linux  |  make -j$(sysctl -n hw.ncpu)  # macOS
-./mini_os_sim
+# Navigate to the web application directory
+cd web
+
+# Install dependencies
+npm install
+
+# Start the local development server (http://localhost:3000)
+npm run dev
+
+# Create an optimized production static build
+npm run build
 ```
 
-Choose a module (1–7) from the main menu; each has its own submenu.
+The production output is generated in `web/out/` and is ready for static deployment on Vercel, GitHub Pages, or Netlify.
 
----
+### 2. Terminal Version (C++17)
 
-## Overview — Terminal and Web UI
+```bash
+# From repository root
+mkdir build && cd build
 
-The **terminal** version uses a text menu (1–7), ANSI colors, and bordered tables. Module 7 uses a shell-style prompt (`minifs:/$`). The **web** version (see [Web Version](#web-version) below) offers the same modules with a visual UI.
+# Configure and compile
+cmake ..
+make -j$(nproc)   # Linux  |  make -j$(sysctl -n hw.ncpu)  # macOS
 
-### Screenshots (Web version)
-
-| Module | Screenshot | Description |
-|--------|------------|-------------|
-| **CPU Scheduling** | ![CPU Scheduling](img/cpu%20scheduling.png) | Same workload with FCFS, SJF, RR, Priority, MLFQ — Gantt chart, metrics, and comparison. |
-| **Synchronization** | ![Synchronization Playground](img/Synchronization%20Playground.png) | Producer-Consumer, Readers-Writers, Dining Philosophers, Sleeping Barber; lock/semaphore usage in the log. |
-| **Deadlock — RAG** | ![Deadlock Analyzer 1](img/Deadlock%20Analyzer1.png) | Resource Allocation Graph: processes, resources, request/assignment edges, cycle detection. |
-| **Deadlock — Banker's** | ![Deadlock Analyzer 2](img/Deadlock%20Analyzer2.png) | Banker's Algorithm: Allocation, Max, Available; safe/unsafe and safe sequence with walkthrough. |
-| **Memory Management** | ![Memory Management](img/Memory%20Management.png) | First/Best/Worst fit, memory map, fragmentation; "Load Fragmented Demo" and "Compare All". |
-| **Virtual Memory — FIFO** | ![Virtual Memory FIFO](img/Virtual%20Memory%20Simulator-%20FIFO.png) | FIFO page replacement: frame table, fault/hit, and FIFO queue (front = next victim) per step. |
-| **Virtual Memory — LRU** | ![Virtual Memory LRU](img/Virtual%20Memory%20Simulator-LRU.png) | LRU: step-by-step frames and LRU ordering (least recently used at front) for replacement. |
-| **Mini File System** | ![Mini File System](img/Mini%20File%20System.png) | Terminal and file browser: `ls`, `mkdir`, `cd`, `create`, `write`, `cat`, `rm`, `rename`. |
-| **Block I/O Analyzer** | ![Block I/O Analyzer](img/block%20analyzer.png) | Compare disk I/O cost for insert/remove at begin/middle/end under Contiguous, Linked, and Indexed allocation. |
-| **Block I/O Analyzer (results)** | ![Block I/O Analyzer 2](img/block%20analyzer2.png) | Step-by-step explanations and bar chart comparing reads/writes across the three strategies. |
+# Run the terminal simulator
+./mini_os_sim
+```
 
 ---
 
 ## Project Structure
 
 ```
-mini OS simulator/
-├── CMakeLists.txt
-├── README.md
-├── img/                    # Screenshots for README
-├── include/                # Headers: common, process, scheduler, sync, deadlock, memory, vmem, filesystem
-├── src/                    # main.cpp + one folder per module (process, scheduler, ...)
-├── web/                    # Next.js web UI (see below)
-└── data/                   # virtual_disk.bin (created by Module 7)
+Mini-Os-System/
+├── CMakeLists.txt          # Root C++ CMake configuration
+├── README.md               # Project documentation
+├── LEARNING.md             # Educational notes and OS theory
+├── img/                    # Interface screenshots
+├── include/                # C++ header files
+├── src/                    # C++ simulator implementations
+└── web/                    # Next.js web application
+    ├── src/
+    │   ├── app/
+    │   │   ├── page.tsx          # Lab overview & module hub
+    │   │   ├── process/          # Module 1: Process & Thread
+    │   │   ├── scheduler/        # Module 2: CPU Scheduling
+    │   │   ├── deadlock/         # Module 3: Deadlock Analyzer
+    │   │   └── filesystem/       # Module 4: Mini File System & Block I/O
+    │   ├── components/           # Reusable UI & layout components
+    │   └── lib/                  # Simulation algorithms & data structures
+    └── package.json
 ```
 
 ---
 
-## Modules (Summary)
+## Deployment on Vercel
 
-| # | Module | Key features |
-|---|--------|----------------|
-| 1 | Process & Thread | Create processes/threads, state transitions (NEW→READY→RUNNING→WAITING/TERMINATED), live table, log |
-| 2 | CPU Scheduling | FCFS, SJF, RR, Priority, MLFQ — Gantt chart, avg wait/turnaround/response, compare all |
-| 3 | Synchronization | Mutex/semaphore; Producer-Consumer, Readers-Writers, Dining Philosophers, Sleeping Barber |
-| 4 | Deadlock | RAG with cycle detection; Banker's Algorithm (Allocation, Max, Available → safe sequence) |
-| 5 | Memory Management | Fixed/variable partitions, first/best/worst fit, fragmentation, compaction, memory map |
-| 6 | Virtual Memory | Address translation, page replacement (FIFO, LRU, Optimal, Clock), compare all |
-| 7 | Mini File System | FAT-like virtual disk; shell: ls, mkdir, cd, create, write, cat, rm, rename; Block I/O Cost Analyzer (Contiguous/Linked/Indexed) |
+To deploy this project on [Vercel](https://vercel.com):
+
+1. Import your repository into Vercel.
+2. In the **Configure Project** settings, click **Edit** next to **Root Directory** and select **`web`**.
+3. Vercel will automatically detect **Next.js** as the framework preset.
+4. Click **Deploy**.
 
 ---
 
-## Using the Modules (Terminal)
+## License
 
-After running `./mini_os_sim`, choose a module (1–7). Each module shows a numbered submenu; type the option number and press Enter. Below is how to use each one.
-
-### Module 1 — Process & Thread
-
-**Menu:** Create Process, Add Thread, Transition State, Show Process Table, Show Threads, Run Demo, Back.
-
-- **Quick run:** Option **7** (Run Demo) to auto-create sample processes and see state changes in the log.
-- **Manual:** **1** → enter burst, priority, arrival, memory. **5** to see the process table. **3** to change a process state (0=NEW, 1=READY, 2=RUNNING, 3=WAITING, 4=TERMINATED). **2** to add a thread to a process, **6** to list a process’s threads.
-
-### Module 2 — CPU Scheduling
-
-**Menu:** Add process, run FCFS/SJF/RR/Priority/MLFQ, Compare All (custom or sample), Back.
-
-- **Quick run:** **7** (Compare All with sample workload) to run the same workload through all five algorithms and see Gantt charts and comparison table.
-- **Custom workload:** **6** (Compare All) → enter number of processes, then for each: arrival, burst, priority. Enter time quantum for RR. All five schedulers run on that input.
-
-### Module 3 — Synchronization
-
-**Menu:** Producer-Consumer, Readers-Writers, Dining Philosophers, Sleeping Barber, Back.
-
-- **Quick run:** **1** (Producer-Consumer) → e.g. 2 producers, 2 consumers, buffer size 3, 10 items. Watch the log (“Producer produced item”, “Consumer consumed”, “acquired lock”, etc.).
-- Try **2**, **3**, **4** with small numbers (e.g. 3 philosophers, 2 meals) to follow locks and waits in the log.
-
-### Module 4 — Deadlock
-
-**Menu:** Resource Allocation Graph, Banker’s (manual), Banker’s Demo, Back.
-
-- **RAG:** **1** → add processes and resources (e.g. +P, +R), add request (P→R) and assignment (R→P) edges. **9** (Run Demo) loads a cycle. **8** (Check for Deadlock) shows “DEADLOCK DETECTED” and the cycle. **7** displays the graph.
-- **Banker’s:** **3** runs the demo (Allocation, Max, Available → safe/unsafe and safe sequence). **2** for manual input: number of processes and resource types, then Allocation matrix, Max matrix, Available vector.
-
-### Module 5 — Memory Management
-
-**Menu:** Fixed partition / Variable partition, then (in Variable): Allocate First/Best/Worst Fit (1/2/3), Deallocate (4), Compact (5), Reset (6), Back (0). The memory map and table are shown after each action.
-
-- **Quick run:** **2** (Variable Partition) → total memory (e.g. 512). **1** (First Fit) → PID and size (e.g. 1, 64). Repeat with more PIDs/sizes; the map updates each time. **4** (Deallocate) one PID to create a hole (external fragmentation). **5** (Compact) to merge free space.
-- Compare **1** First Fit, **2** Best Fit, **3** Worst Fit on the same allocation pattern to see different fragmentation.
-
-### Module 6 — Virtual Memory
-
-**Menu:** Address Translation, Page Replacement, Back.
-
-- **Address Translation:** **1** → set page size, pages, frames; edit page table (page→frame); enter logical address to see physical address or page fault.
-- **Page Replacement:** **2** → number of frames (e.g. 3). **6** (Compare All with sample) runs the sample reference string with FIFO, LRU, Optimal, Clock and shows step-by-step frames and comparison. **5** (Compare All) lets you enter a custom space-separated reference string.
-
-### Module 7 — Mini File System
-
-**Prompt:** `minifs:/$` (or `minifs:/path/$`). Type commands; type `help` for the list.
-
-- **Example:** `mkdir docs` → `create hello.txt` → `write hello.txt "Hello"` → `ls` → `cat hello.txt` → `cd docs` → `create notes.txt` → `write notes.txt "Subdir"` → `ls` → `cd ..` → `rename hello.txt greeting.txt` → `rm greeting.txt` → `exit` (back to main menu).
-- **Block I/O Analyzer (web only):** In the File System page, open the **Block I/O Analyzer** tab. Set file size (e.g. 100 blocks) and position; choose an operation (insert/remove at beginning, middle, or end). See I/O counts for Contiguous, Linked, and Indexed allocation plus step-by-step explanations and a comparison chart.
-
-- `format` wipes the virtual disk; exit and re-enter Module 7 to use the fresh disk.
-
----
-
-## Notes
-
-- **Not a real kernel** — all modules run in one user-level process.
-- Module 7 creates `virtual_disk.bin` in the working directory and persists it.
-- Module 3 uses real `std::thread`s; on multi-core systems you see parallel execution.
-
-For **why C++**, **which features help**, and **what the project teaches**, see [LEARNING.md](LEARNING.md).
-
----
-
-## Web Version
-
-A full **TypeScript/Next.js** version lives in `web/` with four modules and a visual UI.
-
-**Stack:** Next.js 16 (static export), TypeScript, Tailwind CSS, Recharts.
-
-```bash
-cd web
-npm install
-npm run dev    # http://localhost:3000
-npm run build  # → out/ for static deploy
-```
-
-Deploy `out/` to Vercel, Netlify, or GitHub Pages (root or `web/` as configured).
-
-| # | Web module | Features |
-|---|------------|----------|
-| 1 | Process & Thread | Process table, state buttons, thread list, event log |
-| 2 | CPU Scheduling | Gantt chart, metrics, Compare All chart |
-| 3 | Deadlock | Interactive RAG, Banker's with walkthrough |
-| 4 | File System | Terminal + file browser; Block I/O Analyzer tab (Contiguous/Linked/Indexed) |
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
